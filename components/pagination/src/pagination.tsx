@@ -1,15 +1,13 @@
-import { requiredIf } from '@dhis2/prop-types'
 import { spacers } from '@dhis2/ui-constants'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import React from 'react'
-import { getDefaultPageSummaryText } from './get-default-page-summary-text.js'
-import { getItemRange } from './get-item-range.js'
+import { getDefaultPageSummaryText } from './get-default-page-summary-text.ts'
+import { getItemRange } from './get-item-range.ts'
 import i18n from './locales/index.js'
-import { PageControls } from './page-controls.js'
-import { PageSelect } from './page-select.js'
-import { PageSizeSelect } from './page-size-select.js'
-import { PageSummary } from './page-summary.js'
+import { PageControls } from './page-controls.tsx'
+import { PageSelect } from './page-select.tsx'
+import { PageSizeSelect } from './page-size-select.tsx'
+import { PageSummary } from './page-summary.tsx'
 
 const MAX_PAGE_COUNT = 2000
 
@@ -22,6 +20,33 @@ const defaultProps = {
     pageSummaryText: getDefaultPageSummaryText,
     previousPageText: () => i18n.t('Previous'),
 }
+
+type TextProp = string | ((interpolationObject?: Record<string, unknown>) => string)
+type SummaryTextProp = string | ((...args: never[]) => string)
+
+export interface PaginationProps {
+    page: number
+    pageSize: number
+    className?: string
+    dataTest?: string
+    disabled?: boolean
+    hidePageSelect?: boolean
+    hidePageSizeSelect?: boolean
+    hidePageSummary?: boolean
+    isLastPage?: boolean
+    nextPageText?: TextProp
+    pageCount?: number
+    pageLength?: number
+    pageSelectText?: TextProp
+    pageSizeSelectText?: TextProp
+    pageSizes?: string[]
+    pageSummaryText?: SummaryTextProp
+    previousPageText?: TextProp
+    total?: number
+    onPageChange?: (page: number) => void
+    onPageSizeChange?: (pageSize: number) => void
+}
+
 const Pagination = ({
     className,
     dataTest = defaultProps.dataTest,
@@ -43,7 +68,7 @@ const Pagination = ({
     pageSummaryText = defaultProps.pageSummaryText,
     previousPageText = defaultProps.previousPageText,
     total,
-}) => {
+}: PaginationProps) => {
     const { firstItem, lastItem } = getItemRange({
         isLastPage,
         page,
@@ -67,7 +92,7 @@ const Pagination = ({
                     disabled={disabled}
                     pageSize={pageSize}
                     pageSizes={pageSizes}
-                    onChange={onPageSizeChange}
+                    onChange={onPageSizeChange as (pageSize: number) => void}
                     pageSizeSelectText={pageSizeSelectText}
                 />
             )}
@@ -91,7 +116,7 @@ const Pagination = ({
                         pageSelectText={pageSelectText}
                         page={page}
                         pageCount={pageCount}
-                        onChange={onPageChange}
+                        onChange={onPageChange as (page: number) => void}
                     />
                 )}
                 <PageControls
@@ -99,7 +124,7 @@ const Pagination = ({
                     nextPageText={nextPageText}
                     page={page}
                     previousPageText={previousPageText}
-                    onClick={onPageChange}
+                    onClick={onPageChange as (page: number) => void}
                     isNextDisabled={
                         disabled || isLastPage || page === pageCount
                     }
@@ -124,29 +149,6 @@ const Pagination = ({
             `}</style>
         </div>
     )
-}
-
-Pagination.propTypes = {
-    page: PropTypes.number.isRequired,
-    pageSize: PropTypes.number.isRequired,
-    className: PropTypes.string,
-    dataTest: PropTypes.string,
-    disabled: PropTypes.bool,
-    hidePageSelect: PropTypes.bool,
-    hidePageSizeSelect: PropTypes.bool,
-    hidePageSummary: PropTypes.bool,
-    isLastPage: PropTypes.bool,
-    nextPageText: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    pageCount: PropTypes.number,
-    pageLength: requiredIf((props) => props.isLastPage, PropTypes.number),
-    pageSelectText: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    pageSizeSelectText: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    pageSizes: PropTypes.arrayOf(PropTypes.string),
-    pageSummaryText: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    previousPageText: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    total: PropTypes.number,
-    onPageChange: PropTypes.func,
-    onPageSizeChange: PropTypes.func,
 }
 
 export { Pagination }
