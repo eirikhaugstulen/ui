@@ -51,7 +51,7 @@ const Popover = ({
     arrow = true,
     className,
     dataTest = 'dhis2-uicore-popover',
-    elevation = elevations.e300,
+    elevation = (elevations as Record<string, string>).popover,
     maxWidth = 360,
     observePopperResize,
     observeReferenceResize,
