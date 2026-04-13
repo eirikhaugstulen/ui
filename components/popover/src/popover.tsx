@@ -1,12 +1,12 @@
 import { colors, elevations } from '@dhis2/ui-constants'
 import { Layer } from '@dhis2-ui/layer'
-import type { Modifier } from '@popperjs/core'
-import React, { useState, useMemo } from 'react'
-import { usePopper } from 'react-popper'
 import {
     getReferenceElement,
+    usePopper,
     PopperReference,
-} from '../../popper/src/get-reference-element.ts'
+} from '@dhis2-ui/popper'
+import type { Modifier } from '@popperjs/core'
+import React, { useState, useMemo } from 'react'
 import { Arrow } from './arrow.tsx'
 import { combineModifiers } from './modifiers.ts'
 

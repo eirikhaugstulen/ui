@@ -1,4 +1,4 @@
-import { getBaseModifiers, PopperModifier } from '../../popper/src/modifiers.ts'
+import { getBaseModifiers, PopperModifier } from '@dhis2-ui/popper'
 import { ARROW_SIZE } from './arrow.tsx'
 
 const BORDER_RADIUS = 4
