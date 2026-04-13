@@ -56,8 +56,8 @@ const Pagination = ({
     hidePageSummary,
     isLastPage,
     nextPageText = defaultProps.nextPageText,
-    onPageChange,
-    onPageSizeChange,
+    onPageChange = () => {},
+    onPageSizeChange = () => {},
     page,
     pageCount,
     pageLength,
@@ -92,7 +92,7 @@ const Pagination = ({
                     disabled={disabled}
                     pageSize={pageSize}
                     pageSizes={pageSizes}
-                    onChange={onPageSizeChange as (pageSize: number) => void}
+                    onChange={onPageSizeChange}
                     pageSizeSelectText={pageSizeSelectText}
                 />
             )}
@@ -116,7 +116,7 @@ const Pagination = ({
                         pageSelectText={pageSelectText}
                         page={page}
                         pageCount={pageCount}
-                        onChange={onPageChange as (page: number) => void}
+                        onChange={onPageChange}
                     />
                 )}
                 <PageControls
@@ -124,7 +124,7 @@ const Pagination = ({
                     nextPageText={nextPageText}
                     page={page}
                     previousPageText={previousPageText}
-                    onClick={onPageChange as (page: number) => void}
+                    onClick={onPageChange}
                     isNextDisabled={
                         disabled || isLastPage || page === pageCount
                     }
