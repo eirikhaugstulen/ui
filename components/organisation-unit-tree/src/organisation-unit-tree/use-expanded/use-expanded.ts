@@ -33,10 +33,16 @@ export const useExpanded = ({
     const [expanded, setExpanded] = useState(allInitiallyExpandedPaths)
 
     if (isControlled) {
+        if (!handleExpandControlled || !handleCollapseControlled) {
+            console.warn(
+                'OrganisationUnitTree: "handleExpand" and "handleCollapse" are required when "expanded" is controlled.'
+            )
+        }
+
         return {
             expanded: expandedControlled,
-            handleExpand: handleExpandControlled!,
-            handleCollapse: handleCollapseControlled!,
+            handleExpand: handleExpandControlled ?? (() => undefined),
+            handleCollapse: handleCollapseControlled ?? (() => undefined),
         }
     }
 
