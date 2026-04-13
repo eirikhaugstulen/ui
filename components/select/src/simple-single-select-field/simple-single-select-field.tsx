@@ -87,7 +87,7 @@ export function SimpleSingleSelectField(props: SimpleSingleSelectFieldProps) {
             dataTest={dataTest}
             disabled={disabled}
             required={required}
-            name={name}
+            {...({ labelId } as Record<string, unknown>)}
             label={label}
             helpText={helpText}
             validationText={validationText}
