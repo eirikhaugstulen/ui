@@ -1,0 +1,8 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "rootDir": "../.."
+    },
+    "include": ["src/**/*.ts", "src/**/*.tsx", "../popper/src/**/*.ts", "../popper/src/**/*.tsx"],
+    "exclude": ["node_modules", "build", "**/*.stories.*", "**/*.test.*", "**/*.e2e.*"]
+}
