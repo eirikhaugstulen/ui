@@ -1,20 +1,35 @@
-import { spacers, spacersNum, sharedPropTypes } from '@dhis2/ui-constants'
+import { spacers, spacersNum } from '@dhis2/ui-constants'
 import { Card } from '@dhis2-ui/card'
 import { Center } from '@dhis2-ui/center'
 import { Layer } from '@dhis2-ui/layer'
 import cx from 'classnames'
-import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
-import { resolve } from 'styled-jsx/css'
-import { CloseButton } from './close-button.js'
+import css from 'styled-jsx/css'
+import { CloseButton } from './close-button.tsx'
 
-const resolveLayerStyles = (hide) =>
-    resolve`
+const resolveLayerStyles = (hide?: boolean) =>
+    css.resolve`
         div {
             padding: ${spacers.dp64};
             display: ${hide ? 'none' : 'block'};
         }
     `
+
+export interface ModalProps {
+    children?: React.ReactNode
+    className?: string
+    dataTest?: string
+    fluid?: boolean
+    hide?: boolean
+    large?: boolean
+    position?: 'top' | 'middle' | 'bottom'
+    small?: boolean
+    /** Callback used when the Modal closes */
+    onClose?: (
+        payload: Record<string, never>,
+        event?: React.MouseEvent<HTMLDivElement> | React.MouseEvent<HTMLButtonElement>
+    ) => void
+}
 
 export const Modal = ({
     children,
@@ -26,7 +41,7 @@ export const Modal = ({
     onClose,
     position = 'top',
     small,
-}) => {
+}: ModalProps) => {
     const layerStyles = resolveLayerStyles(hide)
 
     useEffect(() => {
@@ -34,11 +49,11 @@ export const Modal = ({
             return
         }
 
-        const handleKeyDown = (event) => {
+        const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape' && onClose) {
                 event.preventDefault()
                 event.stopPropagation()
-                onClose()
+                onClose({})
             }
         }
 
@@ -99,17 +114,4 @@ export const Modal = ({
             `}</style>
         </Layer>
     )
-}
-
-Modal.propTypes = {
-    children: PropTypes.node,
-    className: PropTypes.string,
-    dataTest: PropTypes.string,
-    fluid: PropTypes.bool,
-    hide: PropTypes.bool,
-    large: sharedPropTypes.sizePropType,
-    position: sharedPropTypes.insideAlignmentPropType,
-    small: sharedPropTypes.sizePropType,
-    /** Callback used when the Modal closes */
-    onClose: PropTypes.func,
 }
